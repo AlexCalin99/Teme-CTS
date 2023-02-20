@@ -1,0 +1,222 @@
+import java.util.ArrayList;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        OnlineShop onlineShop = new OnlineShop("Emag", "logo.jpg", new ArrayList<Prod>());
+
+        Product p1 = new Product("Laptop", 3200.5, 1,1, 1123, "");
+        Product p2 = new Product("Frigider", 207.95, 1,2, 1245, "");
+
+        Product p3 = new Product(p1);
+
+        p3.setQty(5);
+        p3.setName("Paine");
+
+        onlineShop.Add(p1);
+        onlineShop.Add(p2);
+
+        onlineShop.Substract(p1);
+        System.out.println(p1.ProductsAreEquals(p2));
+    }
+}
+
+class OnlineShop {
+    private String name;
+    private String img;
+    private ArrayList<Product> products;
+
+    OnlineShop(String name, String img, ArrayList<Product> products)
+    {
+        this.products = new ArrayList<Product>();
+        this.img = img;
+        this.Name = name;
+    }
+
+    public void Add(Product p)
+    {
+            this.products.add(p);
+    }
+    
+    public void Substract(Product p)
+    {
+            this.products.remove(p);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+}
+
+public enum Type{ Electronics, Consumables }
+
+class Product
+{
+    private int id;
+    private String name;
+    private double price;
+    private enum type = null;
+    private int category;
+    private int qty;
+    private String exp; //expiry date - only for goods
+    private String details; // ex.: processor, memory, power, volume (for refrigerators etc)
+
+    public Product(String name, double price, enum type, int category, int id, String exp)
+    {
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.category = category;
+        this.id = id;
+        this.exp = exp;
+    }
+
+    public Product(Product p)
+    {
+        this.name = p.name;
+        this.price = p.price;
+        this.type = p.type;
+        this.category = p.category;
+        this.id = p.id;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(enum type) {
+        this.type = type;
+    }
+
+    public boolean ProductsAreEquals(Product p)
+    {
+        if(p.id != this.id)
+            return false;
+        if(!p.name.equals(this.name))
+            return false;
+        if(p.price != this.price)
+            return false;
+        if(p.type != this.type)
+            return false;
+        if(p.category != this.category)
+            return false;
+
+        return true;
+    }
+
+    public void Add(double val)
+    {
+            this.price+=this.price*val;
+    }
+
+    public void Substract(double val)
+    {
+            this.price-=this.price*val/100;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+}
+
+class User
+{
+    private String user;
+    private String userId;
+    private ArrayList<Order> order;
+
+    public User(String user, String userId)
+    {
+        this.user = user;
+        this.userId = userId;
+        order=new ArrayList<Order>();
+    }
+
+    public void AddToOrder(Order order)
+    {
+        this.order.add(order);
+    }
+}
+
+class Order
+{
+    private ArrayList<Product> list;
+    private String addr;
+
+    public Order()
+    {
+        list = new ArrayList<Product>();
+    }
+    public void Add(Product p)
+    {
+        if(list.size() > 99)
+            return;
+
+        list.add(p);
+    }
+
+    public void Remove(Product p)
+    {
+        list.remove(p);
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+}
+
+//We already have a variable that tracks quantity in the "Product" class so this last class is not needed
+}
